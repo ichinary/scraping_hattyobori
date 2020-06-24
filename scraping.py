@@ -1,7 +1,15 @@
+import pandas as pd
+import time
 import csv
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-for i in range(21, 29):
+
+restaurant = []
+restaurant_list = []
+# file = open('lunch_list.csv', 'w')   
+# w = csv.writer(file)
+# for i in range(1, 2):
+for i in range(1, 29):
     
     html = urlopen("https://tabelog.com/tokyo/A1302/A130203/R7958/rstLst/lunch/cond20-00-00/" + str(i) + "/?SrtT=trend&LstReserve=0&LstSmoking=0&svd=20200625&svt=1900&svps=2&vac_net=0&Srt=D")
     bsObj = BeautifulSoup(html, "html.parser")
@@ -32,8 +40,17 @@ for i in range(21, 29):
         else:
             lunch_price = lunch_price_html.text
         print("-------index" + str(num) + "----------")
-        print(restaurant_name)
-        print(restaurant_link)
-        print(area_genre)
-        print(star)
-        print(lunch_price)
+        restaurant = []
+        restaurant.append(restaurant_name)
+        restaurant.append(restaurant_link)
+        restaurant.append(area_genre)
+        restaurant.append(star)
+        restaurant.append(lunch_price)
+        restaurant_list.append(restaurant)
+        time.sleep(2)
+
+
+df = pd.DataFrame(restaurant_list)
+df.to_csv('./lunch_list.csv')
+# w = csv.writerows(restaurant_list)
+# file.close()
